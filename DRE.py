@@ -7,8 +7,8 @@ except:
     pass
 
 def executar_dre():
-    opcao = 0
-    while(opcao == 1){
+    opcao = 1
+    while opcao == 1:
         print("--- Input de Dados para DRE ---")
 
         # Inicialização das variáveis
@@ -73,6 +73,6 @@ def executar_dre():
         print(f"(=)TOTAL \t\t\t{total:f}")
         print("----------------------------------------")
         opcao = int(input("Deseja realizar o processo novamente? (1 = s / 0 = n ): "))
-    }
+        
 if __name__ == "__main__":
     executar_dre()
