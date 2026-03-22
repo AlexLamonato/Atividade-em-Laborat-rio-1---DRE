@@ -1,54 +1,55 @@
-  #include <stdio.h>
-  #include <stdlib.h>
-  #include <windows.h>
-  #include <locale.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <windows.h>
+#include <locale.h>
 
+typedef struct{
+    char N[36];
+    float Valor;
+    int T;
+}Dados;
 
-  typedef struct{
-        char N[36];
-        float Valor;
-        int T;
-  }Dados;
+int Maior_0(int V);
+void Titulo1();
+void Titulo2();
+void Titulo3();
+void Circulante(int X, Dados B[X]);
+void Nao_Circulante(int X, Dados B[X]);
 
-  int Maior_0(int V);
-  void Titulo1();
-  void Titulo2();
-  void Titulo3();
-  void Circulante(int X, Dados B[X]);
-  void Nao_Circulante(int X, Dados B[X]);
+// NOVO
+void Mostrar_DRE(int R, Dados Receita[R], int D, Dados Despesa[D]);
 
-  int main()
-  {
+int main()
+{
     setlocale(LC_ALL, "Portuguese");
 
-    int QA, QP, QV, i, j;
-    float SA = 0, SP = 0, Soma_Patrimonio_Liquido = 0;
+    int QA, QP, QV, QR, QD;
+    int i, j;
+
+    float SA = 0, SP = 0, Soma_PL = 0;
+
+    // =========================
+    // BALANÇO PATRIMONIAL
+    // =========================
 
     do
     {
-      printf("=======================\n");
-      printf("  BALANÇO PATRIMONIAL  : Ativos e Passivos\n");
-      printf("=======================\n\n");
+        printf("=======================\n");
+        printf("  BALANCO PATRIMONIAL\n");
+        printf("=======================\n\n");
 
-      printf("- Quantidade de ativos: ");
-      scanf("%d", &QA);
+        printf("- Quantidade de ativos: ");
+        scanf("%d", &QA);
 
-      if(Maior_0(QA) == 1)
-      {
         printf("- Quantidade de passivos: ");
         scanf("%d", &QP);
 
-        if(Maior_0(QP) == 1)
-        {
-          printf("- Quantidade de valores do PL: ");
-          scanf("%d", &QV);
+        printf("- Quantidade de PL: ");
+        scanf("%d", &QV);
 
-          Maior_0(QV);
-        }
-      }
     }while((QA < 1) || (QP < 1) || (QV < 1));
 
-    Dados A[QA], P[QP], Patrimonio_liquido[QV];
+    Dados A[QA], P[QP], PL[QV];
 
     system("cls");
 
@@ -58,71 +59,16 @@
     {
         printf("Nome: ");
         scanf(" %[^\n]s", A[i].N);
+
         printf("Valor(R$): ");
         scanf("%f", &A[i].Valor);
+
+        printf("Tipo (1 circulante / 2 nao): ");
+        scanf("%d", &A[i].T);
+
+        SA += A[i].Valor;
         system("cls");
-        
-
-        if(A[i].Valor <= 0)
-        {
-          printf("\n*Por favor, insira um valor maior que 0*\n\n\n");
-
-          system("pause");
-          system("cls");
-
-          Titulo1();
-
-          if(i > 0)
-          {
-
-            for(j = 0; j < i; j++)
-            {
-              printf("Nome: %s\n", A[j].N);
-              printf("Valor(R$): %.2f\n", A[j].Valor);
-              printf("Tipo (1 -> circulante / 2 -> não circulante): %d\n\n", A[j].T);
-              system("cls");
-            }
-          }
-
-          i--;
-        }
-        else
-        {
-          printf("Tipo (1 -> circulante / 2 -> não circulante): ");
-          scanf("%d", &A[i].T);
-          system("cls");
-
-          if((A[i].T != 1) && (A[i].T != 2))
-          {
-            printf("*Esta opção não existe, por favor escolha novamente*\n\n\n");
-
-            system("pause");
-            system("cls");
-
-            Titulo1();
-
-            if(i > 0)
-            {
-
-              for(j = 0; j < i; j++)
-              {
-                printf("Nome: %s\n", A[j].N);
-                printf("Valor(R$): %.2f\n", A[j].Valor);
-                printf("Tipo (1 -> circulante / 2 -> não circulante): %d\n\n", A[j].T);
-                system("cls");
-              }
-            }
-
-            i--;
-          }
-          else
-          {
-            SA = SA + A[i].Valor;
-          }
-        }
     }
-
-    system("cls");
 
     Titulo2();
 
@@ -130,213 +76,164 @@
     {
         printf("Nome: ");
         scanf(" %[^\n]s", P[i].N);
+
         printf("Valor(R$): ");
         scanf("%f", &P[i].Valor);
 
-        if(P[i].Valor <= 0)
-        {
-          printf("\n*Por favor, insira um valor maior que 0*\n\n\n");
+        printf("Tipo (1 circulante / 2 nao): ");
+        scanf("%d", &P[i].T);
 
-          system("pause");
-          system("cls");
-
-          Titulo2();
-
-          if(i > 0)
-          {
-
-            for(j = 0; j < i; j++)
-            {
-              printf("Nome: %s\n", P[j].N);
-              printf("Valor(R$): %.2f\n", P[j].Valor);
-              printf("Tipo (1 -> circulante / 2 -> não circulante): %d\n\n", P[j].T);
-            }
-          }
-
-          i--;
-        }
-        else
-        {
-          printf("Tipo (1 -> circulante / 2 -> não circulante): ");
-          scanf("%d", &P[i].T);
-          printf("\n");
-
-          if((P[i].T != 1) && (P[i].T != 2))
-          {
-            printf("*Esta opção não existe, por favor escolha novamente*\n\n\n");
-
-            system("pause");
-            system("cls");
-
-            Titulo2();
-
-            if(i > 0)
-            {
-
-              for(j = 0; j < i; j++)
-              {
-                printf("Nome: %s\n", P[j].N);
-                printf("Valor(R$): %.2f\n", P[j].Valor);
-                printf("Tipo (1 -> circulante / 2 -> não circulante): %d\n\n", P[j].T);
-              }
-            }
-
-            i--;
-          }
-          else
-          {
-            SP = SP + P[i].Valor;
-          }
-        }
+        SP += P[i].Valor;
     }
-
-    system("cls");
 
     Titulo3();
 
     for(i = 0; i < QV; i++)
     {
         printf("Nome: ");
-        scanf(" %[^\n]s", Patrimonio_liquido[i].N);
+        scanf(" %[^\n]s", PL[i].N);
+
         printf("Valor(R$): ");
-        scanf("%f", &Patrimonio_liquido[i].Valor);
+        scanf("%f", &PL[i].Valor);
 
-        if(Patrimonio_liquido[i].Valor <= 0)
-        {
-          printf("\n*Por favor, insira um valor maior que 0*\n\n\n");
-
-          system("pause");
-          system("cls");
-
-          Titulo3();
-
-          if(i > 0)
-          {
-
-            for(j = 0; j < i; j++)
-            {
-              printf("Nome: %s\n", Patrimonio_liquido[j].N);
-              printf("Valor(R$): %.2f\n\n", Patrimonio_liquido[j].Valor);
-            }
-          }
-
-          i--;
-        }
-        else
-        {
-          Soma_Patrimonio_Liquido = Soma_Patrimonio_Liquido + Patrimonio_liquido[i].Valor;
-
-          printf("\n");
-        }
+        Soma_PL += PL[i].Valor;
     }
 
     system("cls");
 
-    printf("=======================\n");
-    printf("  BALANÇO PATRIMONIAL  : Resultados\n");
-    printf("=======================\n\n");
+    printf("=========== RESULTADO BP ===========\n\n");
 
-    printf("-------------------------------\n");
-    printf("*ATIVOS*\n");
-    printf("-------------------------------\n");
-    printf("Circulantes:\n");
+    printf("Total Ativos: %.2f\n", SA);
+    printf("Total Passivos: %.2f\n", SP);
+    printf("Total PL: %.2f\n", Soma_PL);
 
-    Circulante(QA, A);
+    printf("\nBP = %.2f\n\n", SA - (SP + Soma_PL));
 
-    printf("\nNão circulantes:\n");
+    // =========================
+    // DRE
+    // =========================
 
-    Nao_Circulante(QA, A);
+    printf("=========== DRE ===========\n\n");
 
-    printf("\nTotal: %.2f\n", SA);
+    printf("- Quantidade de receitas: ");
+    scanf("%d", &QR);
 
-    printf("-------------------------------\n");
+    printf("- Quantidade de despesas: ");
+    scanf("%d", &QD);
 
-    printf("-------------------------------\n");
-    printf("*PASSIVOS + PL*\n");
-    printf("-------------------------------\n");
-    printf("Passivos circulantes:\n");
+    Dados Receita[QR], Despesa[QD];
 
-    Circulante(QP, P);
+    system("cls");
 
-    printf("\nPassivos não circulantes:\n");
+    printf("=== RECEITAS ===\n");
 
-    Nao_Circulante(QP, P);
-
-    printf("\nPatrimônio líquido:\n");
-
-    for(i = 0; i < QV; i++)
+    for(i = 0; i < QR; i++)
     {
-        printf("- %s: %.2f\n", Patrimonio_liquido[i].N, Patrimonio_liquido[i].Valor);
+        printf("Nome: ");
+        scanf(" %[^\n]s", Receita[i].N);
+
+        printf("Valor: ");
+        scanf("%f", &Receita[i].Valor);
     }
 
-    printf("\nTotal passivos: %.2f\n", SP);
-    printf("\nTotal PL: %.2f\n", Soma_Patrimonio_Liquido);
-    printf("\nPassivos + PL: %.2f\n", SP + Soma_Patrimonio_Liquido);
-    printf("-------------------------------\n");
-    printf("\nBP = %.2f\n\n", SA - (SP + Soma_Patrimonio_Liquido));
-    printf("-------------------------------\n");
+    printf("\n=== DESPESAS ===\n");
+
+    for(i = 0; i < QD; i++)
+    {
+        printf("Nome: ");
+        scanf(" %[^\n]s", Despesa[i].N);
+
+        printf("Valor: ");
+        scanf("%f", &Despesa[i].Valor);
+    }
+
+    system("cls");
+
+    Mostrar_DRE(QR, Receita, QD, Despesa);
 
     return 0;
-  }
+}
 
-  int Maior_0(int V)
-  {
-      if(V < 1)
-      {
-        printf("\n*Por favor, insira um valor maior que 0*\n\n\n");
+// =========================
+// FUNÇÕES
+// =========================
 
-        system("pause");
-        system("cls");
+void Mostrar_DRE(int R, Dados Receita[R], int D, Dados Despesa[D])
+{
+    int i;
+    float SR = 0, SD = 0;
 
+    printf("=======================\n");
+    printf("          DRE          \n");
+    printf("=======================\n\n");
+
+    printf("Receitas:\n");
+    for(i = 0; i < R; i++)
+    {
+        printf("- %s: %.2f\n", Receita[i].N, Receita[i].Valor);
+        SR += Receita[i].Valor;
+    }
+
+    printf("\nTotal receitas: %.2f\n\n", SR);
+
+    printf("Despesas:\n");
+    for(i = 0; i < D; i++)
+    {
+        printf("- %s: %.2f\n", Despesa[i].N, Despesa[i].Valor);
+        SD += Despesa[i].Valor;
+    }
+
+    printf("\nTotal despesas: %.2f\n\n", SD);
+
+    float Resultado = SR - SD;
+
+    printf("-----------------------\n");
+    printf("Resultado: %.2f\n", Resultado);
+
+    if(Resultado > 0)
+        printf("Lucro\n");
+    else if(Resultado < 0)
+        printf("Prejuizo\n");
+    else
+        printf("Empate\n");
+
+    printf("-----------------------\n");
+}
+
+int Maior_0(int V)
+{
+    if(V < 1)
         return 0;
-      }
+    return 1;
+}
 
-      return 1;
-  }
+void Titulo1()
+{
+    printf("=== ATIVOS ===\n\n");
+}
 
-  void Titulo1()
-  {
-      printf("=======================\n");
-      printf("  BALANÇO PATRIMONIAL  : Dados dos ativos\n");
-      printf("=======================\n\n");
-  }
+void Titulo2()
+{
+    printf("=== PASSIVOS ===\n\n");
+}
 
-  void Titulo2()
-  {
-      printf("=======================\n");
-      printf("  BALANÇO PATRIMONIAL  : Dados dos passivos\n");
-      printf("=======================\n\n");
-  }
+void Titulo3()
+{
+    printf("=== PATRIMONIO LIQUIDO ===\n\n");
+}
 
-  void Titulo3()
-  {
-      printf("=======================\n");
-      printf("  BALANÇO PATRIMONIAL  : Dados do patrim�nio l�quido\n");
-      printf("=======================\n\n");
-  }
-
-  void Circulante(int X, Dados B[X])
-  {
-      int i;
-
-      for(i = 0; i < X; i++)
-      {
+void Circulante(int X, Dados B[X])
+{
+    int i;
+    for(i = 0; i < X; i++)
         if(B[i].T == 1)
-        {
-          printf("- %s: %.2f\n", B[i].N, B[i].Valor);
-        }
-      }
-  }
+            printf("- %s: %.2f\n", B[i].N, B[i].Valor);
+}
 
-  void Nao_Circulante(int X, Dados B[X])
-  {
-      int i;
-
-      for(i = 0; i < X; i++)
-      {
+void Nao_Circulante(int X, Dados B[X])
+{
+    int i;
+    for(i = 0; i < X; i++)
         if(B[i].T == 2)
-        {
-          printf("- %s: %.2f\n", B[i].N, B[i].Valor);
-        }
-      }
-  }
+            printf("- %s: %.2f\n", B[i].N, B[i].Valor);
+}
